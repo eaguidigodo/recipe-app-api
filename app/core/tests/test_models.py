@@ -1,8 +1,13 @@
 """
 Tests for models.
 """
+from decimal import Decimal
+from datetime import datetime
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+
+from core import models
 
 class ModelTests(TestCase):
     """Test models."""
@@ -44,3 +49,35 @@ class ModelTests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    # def test_create_motorist(self):
+    #     """Test creating a motorist is successful."""
+    #     user = get_user_model().objects.create_user(
+    #         'test@example.com',
+    #         'testpass123',
+    #     )
+    #     motorist = models.Motorist.objects.create(
+    #         user=user,
+    #         surname="Motorist",
+    #     )
+
+    #     self.assertEqual(str(motorist), motorist.surname)
+    #     self.assertTrue(motorist.is_motorist)
+
+    def test_create_vehicle(self):
+        """Test creating a vehicle is successful."""
+        user = get_user_model().objects.create_user(
+            'test@example.com',
+            'testpass123',
+        )
+        vehicle = models.Vehicle.objects.create(
+            user=user,
+            vehicle_type="Berlin", #this should be a select field
+            last_visit_date=datetime.now().date(),
+            vidange_oil="EMS",
+            last_vidange_oil_date=datetime.now().date(),
+            vidange_duration=25,
+            kilometrage=24
+        )
+
+        self.assertEqual(str(vehicle), vehicle.vehicle_type)

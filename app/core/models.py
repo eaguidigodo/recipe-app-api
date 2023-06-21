@@ -1,6 +1,7 @@
 """
 Database models.
 """
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import(
     AbstractBaseUser,
@@ -39,3 +40,32 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+# class Motorist(models.Model):
+#     """Motorist object."""
+#     user = models.ForeignKey(
+#         settings.AUTH_USER_MODEL,
+#         on_delete=models.CASCADE,
+#     )
+#     surname = models.CharField(max_length=255)
+#     is_motorist = models.BooleanField(default=True)
+
+#     def __str__(self) -> str:
+#         return self.surname
+
+class Vehicle(models.Model):
+    """Vehicle object."""
+    user = models.ForeignKey(
+         settings.AUTH_USER_MODEL,
+         on_delete=models.CASCADE,
+    )
+    vehicle_type = models.CharField(max_length=255) #tobe changed to select field
+    last_visit_date = models.DateField()
+    vidange_oil = models.CharField(max_length=255, blank=True)
+    last_vidange_oil_date = models.DateField(null=True)
+    vidange_duration = models.IntegerField(null=True)
+    kilometrage = models.IntegerField(null=True)
+
+    def __str__(self) -> str:
+        return self.vehicle_type
+
